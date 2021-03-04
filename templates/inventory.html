@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Все сотрудники
+{% endblock %}
+
+{% block body %}
+<div class="container">
+    <h1>Сотрудники компании</h1>
+
+    {% if articles|length > 0 %}
+        {% for el in articles %}
+        <div class="alert alert-info">
+            <h5>{{ el.title }}</h5>
+            <p>{{ el.intro }}</p>
+            <i>{{ el.id }}</i>
+            <p><b>Дата: {{ el.date.date() }}</b>
+            <p>
+                <a href="/inventory/{{ el.id }}" class="btn btn-warning">Детально</a>
+            <a href="/inventory/{{ el.id }}/delete" class="btn btn-danger">Удалить</a>
+        </div>
+        {% endfor %}
+    {% else %}
+    <p>Пока нет статей</p>
+    {% endif %}
+</div>
+{% endblock %}

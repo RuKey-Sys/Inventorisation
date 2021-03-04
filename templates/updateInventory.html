@@ -1,0 +1,17 @@
+{% extends 'eq.html' %}
+
+{% block title %}
+Обновление статьи
+{% endblock %}
+
+{% block body %}
+<div class="container">
+    <h1>Обновление статьи</h1>
+    <form method="post">
+        <input type="text" name="Title" id="Title" class="form-control" value="{{ article.title }}"><br>
+        <textarea name="Intro" id="Intro" class="form-control">{{ article.intro }}</textarea><br>
+        <textarea name="Text" id="Text" class="form-control">{{ article.text }}</textarea><br>
+        <input type="submit" class="btn btn-success" value="Обновить">
+    </form>
+</div>
+{% endblock %}

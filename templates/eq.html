@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Обновление статьи
+{% endblock %}
+
+{% block body %}
+<div class="container">
+    <h1>{{ name.title }}</h1>
+
+
+    {% for el in equipment %}
+    {% if el.user_id == article %}
+    <form action="/inventory/{{ name.id }}/{{ el.id }}/updateeq" method="POST">
+        <div class="row">
+            <div class="col"><input type="text" name="eq" id="eq" class="form-control" value="{{ el.eq }}">
+            </div>
+            <div class="col">
+                <input name="col" id="col" class="form-control" value="{{ el.col }}">
+            </div>
+            <div class="col">
+                <a href="/inventory/{{ name.id }}/{{ el.id }}/deleteeq" class="btn btn-success">Удалить</a>
+            </div>
+            <!--
+            <div class="col">
+                <button type="submit" class="btn btn-warning">Обновить КНОПКА</button>
+            </div>
+            <div class="col">
+                <a href="/inventory/{{ name.id }}/{{ el.id }}/updateeq" class="btn btn-success">Обновить</a>
+            </div>
+            -->
+        </div>
+        <br>
+        {% endif %}
+        {% endfor %}
+    </form>
+    <form action="/inventory/{{ name.id }}/{{ equipment[-1].id+1 }}/new/{{ equipment[-1].id }}" method="POST">
+        <div class="row">
+            <div class="col"><input type="text" name="eq_id" id="eq_id" class="form-control"></div>
+            <div class="col"><input name="col_id" id="col_id" class="form-control"></div>
+            <div class="col"><a href="/inventory/{{ name.id }}/{{ equipment[-1].id }}/deleteeq" class="btn btn-success">Удалить</a>
+            </div>
+        </div>
+        <br>
+        <button type="submit" class="btn btn-success">Добавить</button>
+
+    </form>
+
+</div>
+{% endblock %}

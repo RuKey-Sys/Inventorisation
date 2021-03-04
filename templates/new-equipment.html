@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Обновление статьи
+{% endblock %}
+
+{% block body %}
+<div class="container">
+    <h1>{{ name.title }}</h1>
+
+    <form method="post">
+        {% for el in equipment %}
+        {% if el.user_id == article %}
+        <div class="row">
+            <div class="col"><input type="text" name="eq" id="eq" class="form-control" value="{{ el.eq }}"></div>
+            <div class="col"><input name="col" id="col" class="form-control" value="{{ el.col }}"></div>
+            <div class="col"><a href="/inventory/{{ name.id }}/{{ el.id }}/deleteeq" class="btn btn-success">Удалить</a></div>
+        </div>
+        {% endif %}
+        {% endfor %}
+        <br>
+        <a href="/inventory/new/{{ name.id }}/" class="btn btn-success">Добавить</a>
+
+
+    </form>
+</div>
+{% endblock %}

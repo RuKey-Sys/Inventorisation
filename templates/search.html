@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block title %}
+{{ article.title }}
+{% endblock %}
+
+{% block body %}
+<div class="container">
+    <h1>{{ article.title }}</h1>
+    {% for el in article %}
+        <div class="alert alert-info">
+            <h2>{{ el.title }}</h2>
+            <p>{{ el.intro }}</p>
+            <p><b>Дата: {{ el.date.date() }}</b>
+            <p>
+                <a href="/inventory/{{ el.id }}" class="btn btn-warning">Детально</a>
+        </div>
+        {% endfor %}
+</div>
+{% endblock %}

@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Главная страница
+{% endblock %}
+{% block body %}
+
+
+<div class="container">
+    <h1>Добавление пользователя</h1>
+    <form method="post">
+        <input type="text" name="Title" id="Title" class="form-control" placeholder="ФИО"><br>
+        <input name="Intro" id="Intro" class="form-control" placeholder="Отдел(необязательно)"><br>
+        <input type="text" name="eq" id="eq" class="form-control" placeholder="Техника"><br>
+        <input name="col" id="col" class="form-control" placeholder="Количество"><br>
+        <a href="/create-article/" class="btn btn-info">+</a><br><br>
+        <input type="submit" class="btn btn-success" value="Подтвердить">
+
+    </form>
+</div>
+{% endblock %}
