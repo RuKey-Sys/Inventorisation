@@ -212,13 +212,19 @@ def createArticle():
 @app.route('/create-article', methods=['POST', 'GET'])
 def createArticle():
     article = Article.query.all()
-    id = article[-1].id + 1
+    print(article)
+    if article != []:
+        id = article[-1].id + 1
+    else:
+        id = 1
     title = ''
     intro = ''
     article = Article(id=id, title=title, intro=intro)
     equipment = Equipment.query.all()
-    eq_id = equipment[-1].id + 1
-
+    if equipment != []:
+        eq_id = equipment[-1].id + 1
+    else:
+        eq_id = 1
     equipment = Equipment(id=eq_id)
     if request.method == 'POST':
         try:
