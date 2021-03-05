@@ -13,13 +13,14 @@
     {% if el.user_id == article %}
     <form action="/inventory/{{ name.id }}/{{ el.id }}/updateeq" method="POST">
         <div class="row">
-            <div class="col"><input type="text" name="eq" id="eq" class="form-control" value="{{ el.eq }}">
+            <div class="col"><input type="text" name="eq.{{el.id}}" id="eq.{{el.id}}" class="form-control" value="{{ el.eq }}">
             </div>
             <div class="col">
-                <input name="col" id="col" class="form-control" value="{{ el.col }}">
+                <input name="col.{{el.id}}" id="col.{{el.id}}" class="form-control" value="{{ el.col }}">
             </div>
             <div class="col">
                 <a href="/inventory/{{ name.id }}/{{ el.id }}/deleteeq" class="btn btn-success">Удалить</a>
+                <button formaction="/inventory/{{ name.id }}/{{ el.id }}/show" type="submit" class="btn btn-warning">Редактировать</button>
             </div>
             <!--
             <div class="col">

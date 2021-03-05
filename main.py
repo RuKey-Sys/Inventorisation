@@ -119,13 +119,33 @@ def eq_update(id, eq_id):
             if el.id == eq_id:
                 try:
                     el = Equipment(id=eq_id, eq=el.eq, col=el.col, user_id=article.id)
-                    print(el.id, el.eq, el.col)
                     if request.method == 'POST':
                         db.session.add(el)
                         db.session.commit()
                         return redirect('/inventory/' + str(id))
                 except:
                     return 'Error'
+    return redirect('/inventory/' + str(id))
+
+
+@app.route('/inventory/<int:id>/<int:eq_id>/show', methods=['POST', 'GET'])
+def eq_show(id, eq_id):
+    article = Article.query.get(id)
+    equipment = Equipment.query.get(eq_id)
+    #print(article,equipment)
+    if request.method == 'POST':
+        eq=request.form[f'eq.{eq_id}']
+        col=request.form[f'col.{eq_id}']
+
+        equipment = Equipment(eq=eq, col=col, user_id=id)
+        try:
+            db.session.add(equipment)
+            db.session.commit()
+            eq_delete(id,eq_id)
+            #return redirect('/inventory/<int:id>/<int:eq_id>/deleteeq')
+        except:
+            return 'Error'
+
     return redirect('/inventory/' + str(id))
 
 
