@@ -78,7 +78,14 @@ def addeq(id, eq_id):
 @app.route('/inventory/<int:id>/delete')
 def inventory_delete(id):
     article = Article.query.get_or_404(id)
-
+    equipment = Equipment.query.all()
+    for el in equipment:
+        if el.user_id == article.id:
+            try:
+                db.session.delete(el)
+                db.session.commit()
+            except:
+                return 'Error'
     try:
         db.session.delete(article)
         db.session.commit()
