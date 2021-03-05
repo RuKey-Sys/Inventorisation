@@ -105,14 +105,13 @@ def eq_delete(id, eq_id):
 
 @app.route('/inventory/<int:id>/<int:eq_id>/updateeq', methods=['POST', 'GET'])
 def eq_update(id, eq_id):
-
     article = Article.query.get(id)
     equipment = Equipment.query.all()
     for el in equipment:
         if article.id == el.user_id:
             if el.id == eq_id:
                 try:
-                    el = Equipment(id=eq_id, eq=el.eq, col=el.col,user_id=article.id)
+                    el = Equipment(id=eq_id, eq=el.eq, col=el.col, user_id=article.id)
                     print(el.id, el.eq, el.col)
                     if request.method == 'POST':
                         db.session.add(el)
@@ -179,6 +178,7 @@ def add_eq(id, eq_id, commit_eq):
         return redirect('/inventory/' + str(id))
 
 
+'''
 @app.route('/create-article', methods=['POST', 'GET'])
 def createArticle():
     if request.method == 'POST':
@@ -199,7 +199,76 @@ def createArticle():
             return 'Error'
     else:
         return render_template("create-article.html")
+'''
 
+
+@app.route('/create-article', methods=['POST', 'GET'])
+def createArticle():
+    article = Article.query.all()
+    id = article[-1].id + 1
+    title = ''
+    intro = ''
+    article = Article(id=id, title=title, intro=intro)
+    equipment = Equipment.query.all()
+    eq_id = equipment[-1].id + 1
+
+    equipment = Equipment(id=eq_id)
+    if request.method == 'POST':
+        try:
+            db.session.add(article)
+            db.session.commit()
+            print(equipment)
+            return render_template("create-article.html", article=article, equipment=equipment)
+            # return redirect(f'/inventory/{article.id}')
+        except:
+            return 'Error'
+    else:
+        return render_template("create-article.html")
+
+
+@app.route('/inventory/<int:id>/<int:eq_id>/newuser/<int:commit_eq>', methods=['POST', 'GET'])
+def add_user_eq(id, eq_id, commit_eq):
+    article = Article.query.get(id)
+    equipment = Equipment.query.get(eq_id)
+    title = request.form['Title']
+    #print(title)
+    intro = request.form['Intro']
+
+    if request.method == 'POST':
+        new_eq = Equipment.query.get(commit_eq)
+        eq = request.form['eq_id']
+        col = request.form['col_id']
+
+        delarticle =Article.query.get(id)
+        print(delarticle)
+        #print(newarticle.title, newarticle.id)
+        try:
+            db.session.delete(delarticle)
+            db.session.flush()
+            newarticle = Article(title=title, intro=intro)
+            db.session.add(newarticle)
+
+            #db.session.flush()
+            new_eq = Equipment(eq=eq, col=col, user_id=id)
+            db.session.add(new_eq)
+            db.session.commit()
+            return redirect(f'/inventory/{id}')
+        except:
+            db.session.rollback()
+            return 'Error'
+    else:
+        # article = Article.query.get(id)
+        equipment = Equipment.query.get(commit_eq)
+        eq = request.form['eq']
+        try:
+            db.session.add(equipment)
+            db.session.commit()
+            return redirect(f'/inventory/{id}')
+        except:
+            db.session.rollback()
+            return 'Error'
+
+        return redirect('/inventory/' + str(id))
 
 if __name__ == "__main__":
     app.run(debug=True)

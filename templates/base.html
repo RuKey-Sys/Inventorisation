@@ -25,8 +25,10 @@
             <input name="q" value="{{ request.args.get('q','') }}" class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
             <button class="btn btn-outline-success" type="submit">Поиск</button>
         </form>
-
-        <a class="btn btn-warning" href="/create-article">Создать</a>
+        <form action="/create-article" method="post">
+            <button class="btn btn-outline-success" type="submit">Создать</button>
+            <!--<a class="btn btn-warning" href="/create-article">Создать</a>-->
+        </form>
     </nav>
 </header>
 {% block body %}{% endblock %}
