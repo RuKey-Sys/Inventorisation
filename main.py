@@ -142,9 +142,8 @@ def updateInventory(id):
 def add_eq(id, eq_id, commit_eq):
     if request.method == 'POST':
         new_eq = Equipment.query.get(commit_eq)
-        print(new_eq)
+
         eq = request.form['eq_id']
-        print(new_eq.eq)
         col = request.form['col_id']
         new_eq = Equipment(eq=eq, col=col, user_id=id)
         try:

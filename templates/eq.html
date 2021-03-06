@@ -35,17 +35,28 @@
         {% endif %}
         {% endfor %}
     </form>
-    <form action="/inventory/{{ name.id }}/{{ equipment[-1].id+1 }}/new/{{ equipment[-1].id }}" method="POST">
-        <div class="row">
-            <div class="col"><input type="text" name="eq_id" id="eq_id" class="form-control"></div>
-            <div class="col"><input name="col_id" id="col_id" class="form-control"></div>
-            <div class="col"><a href="/inventory/{{ name.id }}/{{ equipment[-1].id }}/deleteeq" class="btn btn-success">Удалить</a>
+    {% if equipment != [] %}
+        <form action="/inventory/{{ name.id }}/{{ equipment[-1].id+1 }}/new/{{ equipment[-1].id }}" method="POST">
+            <div class="row">
+                <div class="col"><input type="text" name="eq_id" id="eq_id" class="form-control"></div>
+                <div class="col"><input name="col_id" id="col_id" class="form-control"></div>
+                <div class="col"><a href="/inventory/{{ name.id }}/{{ equipment[-1].id }}/deleteeq" class="btn btn-success">Удалить</a>
+                </div>
             </div>
-        </div>
-        <br>
-        <button type="submit" class="btn btn-success">Добавить</button>
-
-    </form>
+            <br>
+            <button type="submit" class="btn btn-success">Добавить</button>
+        </form>
+    {% else %}
+        <form action="/inventory/{{ name.id }}/{{ 1 }}/new/{{ 0 }}" method="POST">
+            <div class="row">
+                <div class="col"><input type="text" name="eq_id" id="eq_id" class="form-control"></div>
+                <div class="col"><input name="col_id" id="col_id" class="form-control"></div>
+                <div class="col"><a href="/inventory/{{ name.id }}/{{ 0 }}/deleteeq" class="btn btn-success">Удалить</a>
+                </div>
+            </div>
+            <br>
+            <button type="submit" class="btn btn-success">Добавить</button>
+    {% endif %}
 
 </div>
 {% endblock %}
