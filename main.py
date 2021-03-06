@@ -33,46 +33,20 @@ class Equipment(db.Model):
 @app.route('/inventory')
 def inventory():
     q = request.args.get('q')
+
     if q:
         articles = Article.query.filter(Article.title.contains(q)).all()
+        print(articles)
     else:
         articles = Article.query.order_by(Article.date.desc()).all()
     return render_template("inventory.html", articles=articles)
 
 
-# тут шляпа надо переделывать
 @app.route('/inventory/<int:id>')
 def equip(id):
     article = Article.query.get(id)
     equipment = Equipment.query.all()
     return render_template("eq.html", article=int(article.id), equipment=equipment, name=article)
-
-
-'''@app.route('/inventory/<int:id>/update')
-def inventory_detail(id):
-    article = Article.query.get(id)
-    equipment = Equipment.query.get(id)
-    return render_template("inventory_detail.html", article=article, equipment=equipment)
-'''
-
-
-@app.route('/inventory/<int:id>/<int:eq_id>/add', methods=['POST', 'GET'])
-def addeq(id, eq_id):
-    article = Article.query.get(id)
-    equipment = Equipment.query.get(eq_id)
-
-    if request.method == 'POST':
-        equipment.eq = request.form['eq']
-        equipment.col = request.form['col']
-        try:
-            db.session.add(equipment)
-            db.session.commit()
-            return redirect('/inventory')
-        except:
-            db.session.rollback()
-            return 'Error'
-    else:
-        return render_template("addeq.html", equipment=equipment)
 
 
 @app.route('/inventory/<int:id>/delete')
@@ -130,22 +104,16 @@ def eq_update(id, eq_id):
 
 @app.route('/inventory/<int:id>/<int:eq_id>/show', methods=['POST', 'GET'])
 def eq_show(id, eq_id):
-    article = Article.query.get(id)
-    equipment = Equipment.query.get(eq_id)
-    #print(article,equipment)
     if request.method == 'POST':
         eq=request.form[f'eq.{eq_id}']
         col=request.form[f'col.{eq_id}']
-
         equipment = Equipment(eq=eq, col=col, user_id=id)
         try:
             db.session.add(equipment)
             db.session.commit()
             eq_delete(id,eq_id)
-            #return redirect('/inventory/<int:id>/<int:eq_id>/deleteeq')
         except:
             return 'Error'
-
     return redirect('/inventory/' + str(id))
 
 
@@ -173,9 +141,6 @@ def updateInventory(id):
 
 @app.route('/inventory/<int:id>/<int:eq_id>/new/<int:commit_eq>', methods=['POST', 'GET'])
 def add_eq(id, eq_id, commit_eq):
-    article = Article.query.get(id)
-    equipment = Equipment.query.get(eq_id)
-
     if request.method == 'POST':
         new_eq = Equipment.query.get(commit_eq)
         print(new_eq)
@@ -191,9 +156,7 @@ def add_eq(id, eq_id, commit_eq):
             db.session.rollback()
             return 'Error'
     else:
-        # article = Article.query.get(id)
         equipment = Equipment.query.get(commit_eq)
-        eq = request.form['eq']
         try:
             db.session.add(equipment)
             db.session.commit()
@@ -201,32 +164,6 @@ def add_eq(id, eq_id, commit_eq):
         except:
             db.session.rollback()
             return 'Error'
-
-        return redirect('/inventory/' + str(id))
-
-
-'''
-@app.route('/create-article', methods=['POST', 'GET'])
-def createArticle():
-    if request.method == 'POST':
-        title = request.form['Title']
-        intro = request.form['Intro']
-        eq = request.form['eq']
-        col = request.form['col']
-        article = Article(title=title, intro=intro)
-
-        try:
-            db.session.add(article)
-            db.session.flush()
-            equipment = Equipment(eq=eq, col=col, user_id=article.id)
-            db.session.add(equipment)
-            db.session.commit()
-            return redirect('/inventory')
-        except:
-            return 'Error'
-    else:
-        return render_template("create-article.html")
-'''
 
 
 @app.route('/create-article', methods=['POST', 'GET'])
@@ -252,7 +189,6 @@ def createArticle():
             db.session.commit()
             print(equipment)
             return render_template("create-article.html", article=article, equipment=equipment)
-            # return redirect(f'/inventory/{article.id}')
         except:
             return 'Error'
     else:
@@ -261,27 +197,17 @@ def createArticle():
 
 @app.route('/inventory/<int:id>/<int:eq_id>/newuser/<int:commit_eq>', methods=['POST', 'GET'])
 def add_user_eq(id, eq_id, commit_eq):
-    article = Article.query.get(id)
-    equipment = Equipment.query.get(eq_id)
     title = request.form['Title']
-    #print(title)
     intro = request.form['Intro']
-
     if request.method == 'POST':
-        new_eq = Equipment.query.get(commit_eq)
         eq = request.form['eq_id']
         col = request.form['col_id']
-
         delarticle =Article.query.get(id)
-        print(delarticle)
-        #print(newarticle.title, newarticle.id)
         try:
             db.session.delete(delarticle)
             db.session.flush()
             newarticle = Article(title=title, intro=intro)
             db.session.add(newarticle)
-
-            #db.session.flush()
             new_eq = Equipment(eq=eq, col=col, user_id=id)
             db.session.add(new_eq)
             db.session.commit()
@@ -290,9 +216,7 @@ def add_user_eq(id, eq_id, commit_eq):
             db.session.rollback()
             return 'Error'
     else:
-        # article = Article.query.get(id)
         equipment = Equipment.query.get(commit_eq)
-        eq = request.form['eq']
         try:
             db.session.add(equipment)
             db.session.commit()
@@ -301,7 +225,6 @@ def add_user_eq(id, eq_id, commit_eq):
             db.session.rollback()
             return 'Error'
 
-        return redirect('/inventory/' + str(id))
 
 if __name__ == "__main__":
     app.run(debug=True)
