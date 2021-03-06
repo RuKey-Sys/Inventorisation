@@ -11,12 +11,18 @@
     {% if articles|length > 0 %}
         {% for el in articles %}
         <div class="alert alert-info">
-            <h5>{{ el.title }}</h5>
-            <p>{{ el.intro }}</p>
-
-            <p>
-                <a href="/inventory/{{ el.id }}" class="btn btn-warning">Детально</a>
-            <a href="/inventory/{{ el.id }}/delete" class="btn btn-danger">Удалить</a>
+            <div class="row">
+                <div class="col">
+                    <h5>{{ el.title }}</h5>
+                </div>
+                <div class="col">
+                    <p>{{ el.intro }}</p>
+                </div>
+                <div class="col">
+                    <a href="/inventory/{{ el.id }}" class="btn btn-warning">Детально</a>
+                    <a href="/inventory/{{ el.id }}/delete" class="btn btn-danger">Удалить</a>
+                </div>
+            </div>
         </div>
         {% endfor %}
     {% else %}
