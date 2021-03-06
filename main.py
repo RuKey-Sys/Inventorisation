@@ -33,7 +33,6 @@ class Equipment(db.Model):
 @app.route('/inventory')
 def inventory():
     q = request.args.get('q')
-
     if q:
         articles = Article.query.filter(Article.title.contains(q)).all()
         print(articles)
