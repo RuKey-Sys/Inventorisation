@@ -12,13 +12,13 @@
     <div class="alert alert-info">
         <div class="row">
             <div class="col-md-4">
-                <a class="btn btn-info" href="/inventory/{{ el.id }}">{{ el.title }}</a>
+                <a class="btn btn-info col" href="/inventory/{{ el.id }}">{{ el.title }}</a>
             </div>
-            <div class="col-1">
-                <a href="/inventory/{{ el.id }}/delete" class="btn btn-danger fa fa-times" aria-hidden="true"></a>
+            <div class="col-1 d-flex">
+                <a href="/inventory/{{ el.id }}/delete" class="btn btn-danger font-weight-bold">&#xD7;</a>
             </div>
             <div class="col">
-                <p>{{ el.intro }}</p>
+                <p class="text-center">{{ el.intro }}</p>
             </div>
 
         </div>
