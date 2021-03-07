@@ -22,11 +22,11 @@
         </a>
         <a class="py-2 d-none d-md-inline-block" href="/">Главная</a>
 
-        <form class="d-flex" method="GET">
+        <form class="py-2 d-flex align-items-center" method="GET">
             <input name="q" value="{{ request.args.get('q','') }}" class="form-control me-2" type="search" placeholder="Поиск" aria-label="Search">
-            <button class="btn btn-outline-success" type="submit">Поиск</button>
+            <button class="btn btn-outline-success mx-2" type="submit">Поиск</button>
         </form>
-        <form action="/create-article" method="post">
+        <form action="/create-article" method="post" class="py-2">
             <button class="btn btn-success" type="submit">Создать</button>
         </form>
     </nav>
