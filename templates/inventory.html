@@ -12,16 +12,16 @@
         {% for el in articles %}
         <div class="alert alert-info">
             <div class="row">
-                <div class="col">
-                    <h5>{{ el.title }}</h5>
+                <div class="col-md-4">
+                    <a class="btn btn-info" href="/inventory/{{ el.id }}">{{ el.title }}</a>
+                </div>
+                <div class="col-1">
+                    <a href="/inventory/{{ el.id }}/delete" class="close btn btn-danger justify-content-center">&times;</a>
                 </div>
                 <div class="col">
                     <p>{{ el.intro }}</p>
                 </div>
-                <div class="col">
-                    <a href="/inventory/{{ el.id }}" class="btn btn-warning">Детально</a>
-                    <a href="/inventory/{{ el.id }}/delete" class="btn btn-danger">Удалить</a>
-                </div>
+
             </div>
         </div>
         {% endfor %}
