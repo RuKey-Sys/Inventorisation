@@ -7,24 +7,23 @@
 {% block body %}
 <div class="container">
     <h1>Сотрудники компании</h1>
-
     {% if articles|length > 0 %}
-        {% for el in articles %}
-        <div class="alert alert-info">
-            <div class="row">
-                <div class="col-md-4">
-                    <a class="btn btn-info" href="/inventory/{{ el.id }}">{{ el.title }}</a>
-                </div>
-                <div class="col-1">
-                    <a href="/inventory/{{ el.id }}/delete" class="close btn btn-danger justify-content-center">&times;</a>
-                </div>
-                <div class="col">
-                    <p>{{ el.intro }}</p>
-                </div>
-
+    {% for el in articles %}
+    <div class="alert alert-info">
+        <div class="row">
+            <div class="col-md-4">
+                <a class="btn btn-info" href="/inventory/{{ el.id }}">{{ el.title }}</a>
             </div>
+            <div class="col-1">
+                <a href="/inventory/{{ el.id }}/delete" class="btn btn-danger fa fa-times" aria-hidden="true"></a>
+            </div>
+            <div class="col">
+                <p>{{ el.intro }}</p>
+            </div>
+
         </div>
-        {% endfor %}
+    </div>
+    {% endfor %}
     {% else %}
     <p>Нет сотрудников</p>
     {% endif %}
