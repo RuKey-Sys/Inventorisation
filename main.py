@@ -69,21 +69,6 @@ def login():
     return render_template('login.html', form=form)
 
 
-@app.route('/login2', methods=['POST'])
-def login_post():
-    login = request.form.get('login')
-    password = request.form.get('password')
-    remember = True if request.form.get('remember') else False
-    user = Users.query.get(1)
-
-    if user.login == login and user.password == password:
-        print(login)
-        print(password)
-        return redirect('/')
-
-    return redirect('/login')
-
-
 @app.route('/')
 @app.route('/home')
 @app.route('/inventory')
@@ -100,6 +85,7 @@ def inventory():
 
 
 @app.route('/inventory/<int:id>')
+@login_required
 def equip(id):
     article = Article.query.get(id)
     equipment = Equipment.query.all()
@@ -107,6 +93,7 @@ def equip(id):
 
 
 @app.route('/inventory/<int:id>/delete')
+@login_required
 def inventory_delete(id):
     article = Article.query.get_or_404(id)
     equipment = Equipment.query.all()
@@ -126,6 +113,7 @@ def inventory_delete(id):
 
 
 @app.route('/inventory/<int:id>/<int:eq_id>/deleteeq')
+@login_required
 def eq_delete(id, eq_id):
     article = Article.query.get(id)
     equipment = Equipment.query.all()
@@ -142,6 +130,7 @@ def eq_delete(id, eq_id):
 
 
 @app.route('/inventory/<int:id>/<int:eq_id>/updateeq', methods=['POST', 'GET'])
+@login_required
 def eq_update(id, eq_id):
     article = Article.query.get(id)
     equipment = Equipment.query.all()
@@ -160,6 +149,7 @@ def eq_update(id, eq_id):
 
 
 @app.route('/inventory/<int:id>/<int:eq_id>/show', methods=['POST', 'GET'])
+@login_required
 def eq_show(id, eq_id):
     if request.method == 'POST':
         eq=request.form[f'eq.{eq_id}']
@@ -175,6 +165,7 @@ def eq_show(id, eq_id):
 
 
 @app.route('/inventory/<int:id>/update', methods=['POST', 'GET'])
+@login_required
 def updateInventory(id):
     article = Article.query.get(id)
     equipment = Equipment.query.get(id)
@@ -197,6 +188,7 @@ def updateInventory(id):
 
 
 @app.route('/inventory/<int:id>/<int:eq_id>/new/<int:commit_eq>', methods=['POST', 'GET'])
+@login_required
 def add_eq(id, eq_id, commit_eq):
     if request.method == 'POST':
         new_eq = Equipment.query.get(commit_eq)
@@ -223,6 +215,7 @@ def add_eq(id, eq_id, commit_eq):
 
 
 @app.route('/create-article', methods=['POST', 'GET'])
+@login_required
 def createArticle():
     article = Article.query.all()
     print(article)
@@ -252,6 +245,7 @@ def createArticle():
 
 
 @app.route('/inventory/<int:id>/<int:eq_id>/newuser/<int:commit_eq>', methods=['POST', 'GET'])
+@login_required
 def add_user_eq(id, eq_id, commit_eq):
     title = request.form['Title']
     intro = request.form['Intro']
