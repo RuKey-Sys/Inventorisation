@@ -6,20 +6,20 @@
 
 {% block body %}
 <div class="container">
-    <h1>Сотрудники компании</h1>
+    <h1>Сотрудники компании{{ name }}</h1>
     {% if articles|length > 0 %}
     {% for el in articles %}
-    <div class="alert alert-info">
-        <div class="row">
-            <div class="col-md-4">
-                <a class="btn btn-info col" href="/inventory/{{ el.id }}">{{ el.title }}</a>
-            </div>
-            <div class="col-1 d-flex">
-                <a href="/inventory/{{ el.id }}/delete" class="btn btn-danger font-weight-bold">&#xD7;</a>
-            </div>
-            <div class="col">
-                <p class="text-center">{{ el.intro }}</p>
-            </div>
+    <div class="alert alert-info ">
+        <div class="row ">
+                <div class="col-md-4">
+                    <a class="col btn btn-info" href="/inventory/{{ el.id }}">{{ el.title }}</a>
+                </div>
+                <div class="col-1 d-flex">
+                    <a href="/inventory/{{ el.id }}/delete" class="btn btn-danger font-weight-bold">&#xD7;</a>
+                </div>
+                <div class="col">
+                    <p class="text-center">{{ el.intro }}</p>
+                </div>
 
         </div>
     </div>

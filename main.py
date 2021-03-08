@@ -1,11 +1,18 @@
 from flask import Flask, render_template, url_for, request, redirect
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
+from flask_login import LoginManager, UserMixin, login_required, login_user
+from flask_wtf import FlaskForm
+from wtforms import StringField, SubmitField,  BooleanField, PasswordField
+from wtforms.validators import DataRequired
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///inventory.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
+login_manager = LoginManager(app)
+app.secret_key = "#safefsegwe"
+login_manager.login_view = "login"
 
 
 class Article(db.Model):
@@ -28,10 +35,61 @@ class Equipment(db.Model):
         return '<Equipment %r>' % self.id
 
 
+class Users(db.Model,UserMixin):
+    id = db.Column(db.Integer(), primary_key=True)
+    login = db.Column(db.String(100), nullable=False)
+    password = db.Column(db.String(100),nullable=False)
+    def __repr__(self):
+        return '<Users %r>' % self.id
+
+class LoginForm(FlaskForm):
+    username = StringField("Username", validators=[DataRequired()])
+    password = PasswordField("Password", validators=[DataRequired()])
+    remember = BooleanField("Remember Me")
+    submit = SubmitField()
+
+
+@login_manager.user_loader
+def load_user(user_id):
+    return Users.query.get(int(user_id))
+
+
+
+@app.route('/login/', methods=['post', 'get'])
+def login():
+    password = request.form.get('password')
+    form = LoginForm()
+    if form.validate_on_submit():
+        user = db.session.query(Users).filter(Users.login == form.username.data).first()
+        if user and user.password == password:
+            login_user(user, remember=form.remember.data)
+            return redirect('/')
+        else:
+            return redirect(url_for('login'))
+    return render_template('login.html', form=form)
+
+
+@app.route('/login2', methods=['POST'])
+def login_post():
+    login = request.form.get('login')
+    password = request.form.get('password')
+    remember = True if request.form.get('remember') else False
+    user = Users.query.get(1)
+
+    if user.login == login and user.password == password:
+        print(login)
+        print(password)
+        return redirect('/')
+
+    return redirect('/login')
+
+
 @app.route('/')
 @app.route('/home')
 @app.route('/inventory')
+@login_required
 def inventory():
+
     q = request.args.get('q')
     if q:
         articles = Article.query.filter(Article.title.contains(q)).all()
