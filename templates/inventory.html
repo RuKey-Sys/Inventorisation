@@ -1,5 +1,4 @@
 {% extends 'base.html' %}
-
 {% block title %}
 Все сотрудники
 {% endblock %}
@@ -10,15 +9,15 @@
     {% if articles|length > 0 %}
     {% for el in articles %}
     <div class="alert alert-info ">
-        <div class="row ">
-                <div class="col-md-4">
-                    <a class="col btn btn-info" href="/inventory/{{ el.id }}">{{ el.title }}</a>
+        <div class="row align-items-center ">
+                <div class="col-md-4 ">
+                    <a class="row justify-content-md-center font-weight-bold" style ="text-decoration:none;" href="/inventory/{{ el.id }}">{{ el.title }}</a>
                 </div>
                 <div class="col-1 d-flex align-items-center">
                     <a href="/inventory/{{ el.id }}/delete" class="btn btn-danger font-weight-bold">&#xD7;</a>
                 </div>
-                <div class="col">
-                    <p class="text-center">{{ el.intro }}</p>
+                <div class="col-md-7">
+                    <p class="row align-middle my-2">{{ el.intro }}</p>
                 </div>
 
         </div>

@@ -12,9 +12,9 @@
         <input type="text" name="Title" id="Title" class="form-control" required placeholder="ФИО"><br>
         <input name="Intro" id="Intro" class="form-control" placeholder="Отдел(необязательно)"><br>
 
-        <div class="row">
-            <div class="col"><input type="text" name="eq_id" id="eq_id" class="form-control" placeholder="Инвентарь"></div>
-            <div class="col"><input name="col_id" id="col" class="form-control" placeholder="Количество"></div>
+        <div class="d-flex flex-nowrap">
+            <div class="col p-0"><input type="text" name="eq_id" id="eq_id" class="form-control" placeholder="Инвентарь"></div>
+            <div class="col-1 p-0"><input name="col_id" id="col" class="form-control" placeholder="Кол."></div>
             <div class="col"><a href="/inventory/{{ article.id }}/{{ equipment.id }}/deleteeq" class="btn btn-success">Удалить</a>
             </div>
         </div>

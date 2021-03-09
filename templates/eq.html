@@ -12,10 +12,10 @@
     {% for el in equipment %}
     {% if el.user_id == article %}
     <form action="/inventory/{{ name.id }}/{{ el.id }}/updateeq" method="POST">
-        <div class="row">
-            <div class="col"><input type="text" name="eq.{{el.id}}" id="eq.{{el.id}}" class="form-control" value="{{ el.eq }}">
+        <div class="d-flex flex-nowrap">
+            <div class="col-4 p-0"><input type="text" name="eq.{{el.id}}" id="eq.{{el.id}}" class="form-control" value="{{ el.eq }}">
             </div>
-            <div class="col">
+            <div class="col-1 p-0">
                 <input name="col.{{el.id}}" id="col.{{el.id}}" class="form-control" value="{{ el.col }}">
             </div>
             <div class="col">
@@ -37,9 +37,9 @@
     </form>
     {% if equipment != [] %}
         <form action="/inventory/{{ name.id }}/{{ equipment[-1].id+1 }}/new/{{ equipment[-1].id }}" method="POST">
-            <div class="row">
-                <div class="col"><input type="text" name="eq_id" id="eq_id" class="form-control"></div>
-                <div class="col"><input name="col_id" id="col_id" class="form-control"></div>
+            <div class="d-flex flex-nowrap">
+                <div class="col-4 p-0"><input type="text" name="eq_id" id="eq_id" class="form-control" placeholder="Инвентарь" ></div>
+                <div class="col-1 p-0"><input name="col_id" id="col_id" class="form-control" placeholder="Кол."></div>
                 <div class="col"><a href="/inventory/{{ name.id }}/{{ equipment[-1].id }}/deleteeq" class="btn btn-success">Удалить</a>
                 </div>
             </div>
