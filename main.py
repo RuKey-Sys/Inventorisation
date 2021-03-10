@@ -234,9 +234,6 @@ def createArticle():
     equipment = Equipment(id=eq_id)
     if request.method == 'POST':
         try:
-            db.session.add(article)
-            db.session.commit()
-            print(equipment)
             return render_template("create-article.html", article=article, equipment=equipment)
         except:
             return 'Error'
@@ -252,10 +249,7 @@ def add_user_eq(id, eq_id, commit_eq):
     if request.method == 'POST':
         eq = request.form['eq_id']
         col = request.form['col_id']
-        delarticle =Article.query.get(id)
         try:
-            db.session.delete(delarticle)
-            db.session.flush()
             newarticle = Article(title=title, intro=intro)
             db.session.add(newarticle)
             new_eq = Equipment(eq=eq, col=col, user_id=id)
