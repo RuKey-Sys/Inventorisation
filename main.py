@@ -127,24 +127,6 @@ def eq_delete(id, eq_id):
                     return 'Error'
     return redirect('/inventory/' + str(id))
 
-#неиспользуемая функция, можно удалить
-@app.route('/inventory/<int:id>/<int:eq_id>/updateeq', methods=['POST', 'GET'])
-@login_required
-def eq_update(id, eq_id):
-    article = Article.query.get(id)
-    equipment = Equipment.query.all()
-    for el in equipment:
-        if article.id == el.user_id:
-            if el.id == eq_id:
-                try:
-                    el = Equipment(id=eq_id, eq=el.eq, col=el.col, user_id=article.id)
-                    if request.method == 'POST':
-                        db.session.add(el)
-                        db.session.commit()
-                        return redirect('/inventory/' + str(id))
-                except:
-                    return 'Error'
-    return redirect('/inventory/' + str(id))
 
 #Редактировать оборудование
 @app.route('/inventory/<int:id>/<int:eq_id>/show', methods=['POST', 'GET'])
@@ -162,28 +144,6 @@ def eq_show(id, eq_id):
             return 'Error'
     return redirect('/inventory/' + str(id))
 
-#Неиспользуемая функция
-@app.route('/inventory/<int:id>/update', methods=['POST', 'GET'])
-@login_required
-def updateInventory(id):
-    article = Article.query.get(id)
-    equipment = Equipment.query.get(id)
-    print(equipment.user_id)
-    if request.method == 'POST':
-        article.title = request.form['Title']
-        article.intro = request.form['Intro']
-        article.text = request.form['Text']
-        equipment.eq = request.form['eq']
-        equipment.col = request.form['col']
-        try:
-            db.session.commit()
-            return redirect('/inventory')
-        except:
-            db.session.rollback()
-            return 'Error'
-    else:
-
-        return render_template("updateInventory.html", article=article, equipment=equipment)
 
 #Добавление нового оборудования commit_eq-номер последнего оборудования
 @app.route('/inventory/<int:id>/<int:eq_id>/new/<int:commit_eq>', methods=['POST', 'GET'])
@@ -202,15 +162,7 @@ def add_eq(id, eq_id, commit_eq):
         except:
             db.session.rollback()                   #В случае ошибки откатываем изменения
             return 'Error'
-    else:                                           #До сюда не доходит
-        equipment = Equipment.query.get(commit_eq)
-        try:
-            db.session.add(equipment)
-            db.session.commit()
-            return redirect(f'/inventory/{id}')
-        except:
-            db.session.rollback()
-            return 'Error'
+
 
 #Создание пользователя
 @app.route('/create-article', methods=['POST', 'GET'])
@@ -233,7 +185,7 @@ def createArticle():
     if request.method == 'POST':
         return render_template("create-article.html", article=article, equipment=equipment)
     '''
-        Генерируем страницу create-article.html, передаем пустую строку с id последнего+1 и eq_id - номер последнего оборудования +1'''
+        Генерируем страницу create-article.html, передаем пустую строку с id последнего + 1 и eq_id - номер последнего оборудования + 1'''
 
 #Добавление оборудования у нового пользователя
 @app.route('/inventory/<int:id>/<int:eq_id>/newuser/<int:commit_eq>', methods=['POST', 'GET'])
@@ -254,15 +206,7 @@ def add_user_eq(id, eq_id, commit_eq):
         except:
             db.session.rollback()
             return 'Error'
-    else:                              #до сюда не доходит
-        equipment = Equipment.query.get(commit_eq)
-        try:
-            db.session.add(equipment)
-            db.session.commit()
-            return redirect(f'/inventory/{id}')
-        except:
-            db.session.rollback()
-            return 'Error'
+
 
 
 if __name__ == "__main__":
