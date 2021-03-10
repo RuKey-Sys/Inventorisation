@@ -6,20 +6,22 @@
 {% block body %}
 <div class="container">
     <h1>Сотрудники компании{{ name }}</h1>
-   <div id="topNubex"><i class="fa fa-angle-double-up"></i></div>
+    <div id="topNubex"><i class="fa fa-angle-double-up"></i></div>
     {% if articles|length > 0 %}
     {% for el in articles %}
-    <div class="alert alert-info ">
+    <div>
         <div class="row align-items-center ">
-                <div class="col-md-4 ">
-                    <a class="row justify-content-md-center font-weight-bold" style ="text-decoration:none;" href="/inventory/{{ el.id }}">{{ el.title }}</a>
-                </div>
-                <div class="col-1 d-flex align-items-center">
-                    <a href="/inventory/{{ el.id }}/delete" class="btn btn-danger font-weight-bold">&#xD7;</a>
-                </div>
-                <div class="col-md-7">
-                    <p class="row align-middle my-2">{{ el.intro }}</p>
-                </div>
+            <div class="col-md-4 ">
+                <a class="row justify-content-md-center font-weight-bold" style="text-decoration:none;"
+                   href="/inventory/{{ el.id }}">{{ el.title }}</a>
+            </div>
+
+            <div class="col-md-7">
+                <p class="row align-middle my-2">{{ el.intro }}</p>
+            </div>
+            <div class="col-1 d-flex align-items-center">
+                <a href="/inventory/{{ el.id }}/delete" class="font-weight-bold" style="color: red">&#xD7;</a>
+            </div>
 
         </div>
     </div>
