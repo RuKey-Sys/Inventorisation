@@ -77,7 +77,7 @@ def inventory():
 
     q = request.args.get('q')       #Аргументы из поля поиска записываем переменную q
     if q:
-        articles = Article.query.filter(Article.title.contains(q)).all()    # В переменную article записываем записи, где в поле title содержится q
+        articles = Article.query.filter(Article.title.contains(q)).all()    # В переменную article записываем записи, где в поле title содержится q, сортируем
     else:
         articles = Article.query.order_by(Article.title).all()      #Иначе показываем всех
     return render_template("inventory.html", articles=articles)     #При Переходе на ссылки /,/home/inventory генерируем страницу inventory.html
