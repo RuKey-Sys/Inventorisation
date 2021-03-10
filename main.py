@@ -80,7 +80,7 @@ def inventory():
         articles = Article.query.filter(Article.title.contains(q)).all()
         print(articles)
     else:
-        articles = Article.query.order_by(Article.date.desc()).all()
+        articles = Article.query.order_by(Article.title).all()
     return render_template("inventory.html", articles=articles)
 
 
